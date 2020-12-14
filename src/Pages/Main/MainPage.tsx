@@ -1,12 +1,21 @@
-import React from "react";
-import { Box } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Box, Container } from "@material-ui/core";
+import { useRecoilState } from "recoil";
+import userState from "../../States/user-state";
+import NavigationBar from "../../Components/NavigationBar/NavigationBar";
+import PrivateRoutes from "../../Routes/PrivateRoutes";
 
 export default function MainPage() {
+    const [user] = useRecoilState(userState);
+
     return (
-        <Box width="inherit" height="100vh" display="flex">
-            <Box></Box>
-            <Box></Box>
-            <Box></Box>
-        </Box>
+        <>
+            <NavigationBar user={user}/>
+            <Box width="inherit" display="flex">
+                <Container>
+                    <PrivateRoutes/>
+                </Container>
+            </Box>
+        </>
     );
 }

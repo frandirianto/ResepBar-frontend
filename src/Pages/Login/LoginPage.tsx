@@ -1,5 +1,5 @@
 import React from "react";
-import LoginCard from "../../Components/Login/LoginCard";
+import LoginCard from "../../Components/LoginCard/LoginCard";
 import { Box } from "@material-ui/core";
 
 function LoginPage() {

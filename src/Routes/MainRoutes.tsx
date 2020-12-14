@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import LoginPage from "../Pages/Login/LoginPage";
 import RegisterPage from "../Pages/Register/RegisterPage";
 import MainPage from "../Pages/Main/MainPage";
+import Logout from "../Pages/Logout/Logout";
 
 const routes = [
     {
@@ -17,9 +18,13 @@ const routes = [
         path: "/home",
         component: MainPage,
     },
+    {
+        path: "/logout",
+        component: Logout,
+    },
 ];
 
-function MainRoute() {
+function MainRoutes() {
     return (
         <Switch>
             {routes.map(({ path, component }, index) => (
@@ -30,4 +35,4 @@ function MainRoute() {
     );
 }
 
-export default MainRoute;
+export default MainRoutes;

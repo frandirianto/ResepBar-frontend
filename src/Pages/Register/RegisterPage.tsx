@@ -1,5 +1,5 @@
 import React from "react";
-import RegisterCard from "../../Components/Register/RegisterCard";
+import RegisterCard from "../../Components/RegisterCard/RegisterCard";
 import { Box } from "@material-ui/core";
 
 function RegisterPage() {

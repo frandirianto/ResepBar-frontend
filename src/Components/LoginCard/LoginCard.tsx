@@ -2,17 +2,17 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link as RouterLink } from "react-router-dom";
-import * as Yup from "yup";
+import { Box } from "@material-ui/core";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 import { useFormik } from "formik";
-import { RegisterUser } from "../../Interfaces/user";
+import * as Yup from "yup";
 import usePostMutation from "../../Effects/usePostMutation";
+import { setCookie } from "../../Utils/cookie";
 
 const useStyles = makeStyles((theme) => ({
-    registerCard: {
+    loginCard: {
         padding: theme.spacing(4),
         borderRadius: theme.spacing(1),
         backgroundColor: "#ffffff",
@@ -27,40 +27,44 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const RegisterSchema = Yup.object().shape({
+const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
 });
 
-function RegisterCard() {
+function LoginCard() {
     const classes = useStyles();
+    const history = useHistory();
 
     const { getFieldProps, handleSubmit } = useFormik({
         initialValues: {
-            fullname: "",
-            username: "",
             email: "",
             password: "",
-            confirmPassword: "",
         },
-        validationSchema: RegisterSchema,
+        validationSchema: LoginSchema,
         onSubmit: (values) => {
             mutate(values);
         },
     });
 
     const onSuccess = (response: any) => {
-        console.log(status, isLoading);
-        console.log(response);
+        if(response.data.token_type === 'Bearer'){
+            const diffTime: number = Math.abs(
+                new Date(response.data.expires_at).getTime() - new Date().getTime()
+            );
+            const diffDays: number = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            setCookie("_t", response.data.access_token, diffDays);
+            history.push("/home");
+        }
     };
 
-    const [mutate, { status, isLoading }] = usePostMutation(
-        process.env.REACT_APP_DEFAULT_API + "register",
+    const [mutate] = usePostMutation(
+        process.env.REACT_APP_DEFAULT_API + "login",
         onSuccess
     );
 
     return (
         <Box
-            className={classes.registerCard}
+            className={classes.loginCard}
             width="500px"
             margin="0 auto"
             display="flex"
@@ -68,7 +72,7 @@ function RegisterCard() {
             alignItems="center"
         >
             <Typography component="h1" variant="h5">
-                Register
+                {"Login"}
             </Typography>
             <form className={classes.form} onSubmit={handleSubmit}>
                 <TextField
@@ -76,27 +80,9 @@ function RegisterCard() {
                     margin="normal"
                     required
                     fullWidth
-                    label="Full Name"
-                    autoComplete="fullname"
-                    autoFocus
-                    {...getFieldProps("fullname")}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="Username"
-                    autoComplete="username"
-                    {...getFieldProps("username")}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
                     label="Email Address"
                     autoComplete="email"
+                    autoFocus
                     {...getFieldProps("email")}
                 />
                 <TextField
@@ -106,16 +92,8 @@ function RegisterCard() {
                     fullWidth
                     label="Password"
                     type="password"
+                    autoComplete="current-password"
                     {...getFieldProps("password")}
-                />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="Confirm Password"
-                    type="password"
-                    {...getFieldProps("confirmPassword")}
                 />
                 <Button
                     type="submit"
@@ -124,12 +102,12 @@ function RegisterCard() {
                     color="primary"
                     className={classes.submit}
                 >
-                    Sign Up
+                    Login
                 </Button>
                 <Box>
-                    {"Already have an account? "}
-                    <Link component={RouterLink} to="/login" variant="body2">
-                        {"Sign In"}
+                    {"Don't have an account? "}
+                    <Link component={RouterLink} to="/register" variant="body2">
+                        {"Sign Up"}
                     </Link>
                 </Box>
             </form>
@@ -137,4 +115,4 @@ function RegisterCard() {
     );
 }
 
-export default RegisterCard;
+export default LoginCard;

@@ -1,8 +1,8 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
+import React, { useState } from "react";
 import {
     AppBar,
     Box,
+    Button,
     InputBase,
     List,
     ListItem,
@@ -13,6 +13,7 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import Link from "@material-ui/core/Link";
 import { Link as RouterLink } from "react-router-dom";
+import { User } from "../../Interfaces/user";
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -22,12 +23,24 @@ const useStyles = makeStyles((theme) => ({
     listNav: {
         display: "flex",
         alignItems: "center",
-        width: "300px",
+        width: "400px",
     },
     linkNav: {
         textDecoration: "none !important",
         "&:hover": {
             fontWeight: "500",
+        },
+    },
+    button:{
+        cursor: "pointer",
+        padding: "4px",
+        width: "100px",
+        border: "1px solid white",
+        textAlign: "center",
+        borderRadius: "4px",
+        transition: "all 300ms ease-in-out",
+        "&:hover": {
+            backgroundColor: theme.palette.background.paper,
         },
     },
     logo: {
@@ -63,7 +76,6 @@ const useStyles = makeStyles((theme) => ({
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create("width"),
         width: "100%",
@@ -76,9 +88,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function NavigationBar() {
-    const classes = useStyles();
+interface IProps{
+    user: User | null;
+}
 
+function NavigationBar({user}:IProps) {
+    const classes = useStyles();
+    const [onHover,setHover] = useState<boolean>(false);
+    const changeHover = () => {
+        setHover(!onHover);
+    }
     return (
         <AppBar position="absolute" color="primary">
             <Toolbar className={classes.toolbar}>
@@ -101,6 +120,13 @@ function NavigationBar() {
                     </Box>
                 </Box>
                 <List className={classes.listNav}>
+                    <ListItem >
+                        <Box className={classes.button} onMouseOver={changeHover} onMouseOut={changeHover}> 
+                            <Typography variant="body1" color={onHover? "primary":"secondary"}>
+                                {"Create Post"}
+                            </Typography>
+                        </Box>
+                    </ListItem>
                     <ListItem>
                         <Link
                             className={classes.linkNav}
@@ -116,24 +142,24 @@ function NavigationBar() {
                         <Link
                             className={classes.linkNav}
                             component={RouterLink}
-                            to="/login"
+                            to="/profile"
                             variant="body2"
                             color="secondary"
                         >
-                            {"Sign In"}
+                            {"Profile"}
                         </Link>
                     </ListItem>
                     <ListItem>
                         <Link
                             className={classes.linkNav}
                             component={RouterLink}
-                            to="/register"
+                            to="/logout"
                             variant="body2"
                             color="secondary"
                         >
-                            {"Sign Up"}
+                            {"Logout"}
                         </Link>
-                    </ListItem>
+                    </ListItem> 
                 </List>
             </Toolbar>
         </AppBar>
