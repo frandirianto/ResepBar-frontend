@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
     AppBar,
     Box,
-    Button,
     InputBase,
     List,
     ListItem,
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
             fontWeight: "500",
         },
     },
-    button:{
+    button: {
         cursor: "pointer",
         padding: "4px",
         width: "100px",
@@ -88,16 +87,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface IProps{
+interface IProps {
     user: User | null;
 }
 
-function NavigationBar({user}:IProps) {
+function NavigationBar({ user }: IProps) {
     const classes = useStyles();
-    const [onHover,setHover] = useState<boolean>(false);
+    const [onHover, setHover] = useState<boolean>(false);
     const changeHover = () => {
         setHover(!onHover);
-    }
+    };
     return (
         <AppBar position="absolute" color="primary">
             <Toolbar className={classes.toolbar}>
@@ -120,9 +119,16 @@ function NavigationBar({user}:IProps) {
                     </Box>
                 </Box>
                 <List className={classes.listNav}>
-                    <ListItem >
-                        <Box className={classes.button} onMouseOver={changeHover} onMouseOut={changeHover}> 
-                            <Typography variant="body1" color={onHover? "primary":"secondary"}>
+                    <ListItem>
+                        <Box
+                            className={classes.button}
+                            onMouseOver={changeHover}
+                            onMouseOut={changeHover}
+                        >
+                            <Typography
+                                variant="body1"
+                                color={onHover ? "primary" : "secondary"}
+                            >
                                 {"Create Post"}
                             </Typography>
                         </Box>
@@ -159,7 +165,7 @@ function NavigationBar({user}:IProps) {
                         >
                             {"Logout"}
                         </Link>
-                    </ListItem> 
+                    </ListItem>
                 </List>
             </Toolbar>
         </AppBar>

@@ -6,7 +6,6 @@ function RegisterPage() {
     return (
         <Box
             width="inherit"
-            height="100vh"
             display="flex"
             alignItems="center"
             textAlign="center"

@@ -7,7 +7,6 @@ import { useRecoilState } from "recoil";
 import recipesState from "../../States/recipe-state";
 import { Recipe } from "../../Interfaces/recipe";
 
-
 const useStyles = makeStyles((theme) => ({
     homePage: {
         paddingTop: theme.spacing(10),
@@ -17,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
 export default function HomePage() {
     const history = useHistory();
     const classes = useStyles();
-    const [recipes,setRecipes] = useRecoilState(recipesState);
-    const data:Recipe[] = [];
+    const [recipes, setRecipes] = useRecoilState(recipesState);
+    const data: Recipe[] = [];
 
     const onSuccess = (response: any) => {
-        if(response.data.recipe.length !== 0){
+        if (response.data.recipe.length !== 0) {
             response.data.recipe.map((recipe: any) => {
                 data.push({
                     id: recipe.id,
@@ -29,15 +28,15 @@ export default function HomePage() {
                     name: recipe.name,
                     description: recipe.description,
                     guide: recipe.guide,
+                    duration: recipe.duration,
                     photo: recipe.photo,
                     tags: recipe.tags,
-                    reviews: recipe.reviews
+                    reviews: recipe.reviews,
                 });
-            })
+            });
         }
         setRecipes(data);
     };
-
 
     const [mutate, { isLoading }] = useGetMutation(
         process.env.REACT_APP_DEFAULT_API + "get-all-recipe",
@@ -47,21 +46,21 @@ export default function HomePage() {
 
     useEffect(() => {
         mutate();
-    }, [mutate])
-    
-    console.log(data,recipes)
+    }, [mutate]);
+
+    console.log(data, recipes);
 
     return (
         <Box className={classes.homePage} display="flex" flexWrap="wrap">
-            {recipes.map((recipe,index) => 
-            <>
-                <RecipeCard recipe={recipe} key={index}/>
-                <RecipeCard recipe={recipe} key={index}/>
-                <RecipeCard recipe={recipe} key={index}/>
-                <RecipeCard recipe={recipe} key={index}/>
-                <RecipeCard recipe={recipe} key={index}/>
-            </>
-            )}
+            {recipes.map((recipe, index) => (
+                <>
+                    <RecipeCard recipe={recipe} key={index} />
+                    <RecipeCard recipe={recipe} key={index} />
+                    <RecipeCard recipe={recipe} key={index} />
+                    <RecipeCard recipe={recipe} key={index} />
+                    <RecipeCard recipe={recipe} key={index} />
+                </>
+            ))}
         </Box>
     );
 }

@@ -1,6 +1,6 @@
-import Axios from 'axios';
-import { useMutation } from 'react-query';
-import { getCookie } from '../Utils/cookie';
+import Axios from "axios";
+import { useMutation } from "react-query";
+import { getCookie } from "../Utils/cookie";
 
 export default function useGetMutation(
     route: string,
@@ -12,8 +12,8 @@ export default function useGetMutation(
             return getAccess
                 ? await Axios.get(route, {
                       headers: {
-                          Accept: 'application/json',
-                          Authorization: 'Bearer ' + getCookie('_t'),
+                          Accept: "application/json",
+                          Authorization: "Bearer " + getCookie("_t"),
                       },
                   })
                 : await Axios.get(route);

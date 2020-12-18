@@ -47,17 +47,20 @@ function LoginCard() {
     });
 
     const onSuccess = (response: any) => {
-        if(response.data.token_type === 'Bearer'){
+        if (response.data.token_type === "Bearer") {
             const diffTime: number = Math.abs(
-                new Date(response.data.expires_at).getTime() - new Date().getTime()
+                new Date(response.data.expires_at).getTime() -
+                    new Date().getTime()
             );
-            const diffDays: number = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffDays: number = Math.ceil(
+                diffTime / (1000 * 60 * 60 * 24)
+            );
             setCookie("_t", response.data.access_token, diffDays);
             history.push("/home");
         }
     };
 
-    const [mutate] = usePostMutation(
+    const [mutate, { isLoading }] = usePostMutation(
         process.env.REACT_APP_DEFAULT_API + "login",
         onSuccess
     );
@@ -107,7 +110,7 @@ function LoginCard() {
                 <Box>
                     {"Don't have an account? "}
                     <Link component={RouterLink} to="/register" variant="body2">
-                        {"Sign Up"}
+                        {"Register"}
                     </Link>
                 </Box>
             </form>

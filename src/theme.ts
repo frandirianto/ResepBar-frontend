@@ -8,9 +8,9 @@ let theme = createMuiTheme({
             dark: "#2c2c2c",
         },
         secondary: {
-            light: "rgba(0,0,0,0.2)",
+            light: "#f9bc44",
             main: "#FFFFFF",
-            dark: "#2c2c2c",
+            dark: "whitesmoke",
         },
         background: {
             default: "#0A0A0A",

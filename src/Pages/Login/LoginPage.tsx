@@ -1,6 +1,7 @@
 import React from "react";
 import LoginCard from "../../Components/LoginCard/LoginCard";
 import { Box } from "@material-ui/core";
+import { Loading } from "../../Components/Loading/Loading";
 
 function LoginPage() {
     return (
@@ -11,7 +12,8 @@ function LoginPage() {
             alignItems="center"
             textAlign="center"
         >
-            <LoginCard />
+            {/* <LoginCard /> */}
+            <Loading />
         </Box>
     );
 }
